@@ -51,7 +51,7 @@ function init(){
  *===============================================================================*/
 
 document.getElementById('btn-save').addEventListener('click',handleSave);
-txtId.addEventListener('input', handleInput)
+// txtId.addEventListener('input', handleInput)
 // txtName.addEventListener('input', handleInput)
 // txtAddress.addEventListener('input', handleInput)
 
@@ -60,44 +60,48 @@ txtId.addEventListener('input', handleInput)
  *===============================================================================*/
 
 function handleSave(event){
-    validate();
+    validate()
 
-    /* Truthy: {}, [], "0", true */
-    /* Falsy: "", 0, 0.0, null, undefined, false */
-    if (!selectedCustomer){
-        customers.push({
-           id: txtId.value,
-           name: txtName.value,
-           address: txtAddress.value
-        });
+    if (true) { /* Truthy: {}, [], "0", true */
+        /* Falsy: "", 0, 0.0, null, undefined, false */
+        if (!selectedCustomer) {
+            customers.push({
+                id: txtId.value,
+                name: txtName.value,
+                address: txtAddress.value
+            });
 
-        var row = tblCustomers.tBodies.item(0).insertRow(-1);
-        row.onclick = handleSelection;
+            if (customers.length < 6) {
+                var row = tblCustomers.tBodies.item(0).insertRow(-1);
+                row.onclick = handleSelection;
 
-        var idCell = row.insertCell(0);
-        idCell.innerText = txtId.value;
+                var idCell = row.insertCell(0);
+                idCell.innerText = txtId.value;
 
-        var nameCell = row.insertCell(1);
-        nameCell.innerText = txtName.value;
+                var nameCell = row.insertCell(1);
+                nameCell.innerText = txtName.value;
 
-        var addressCell = row.insertCell(2);
-        addressCell.innerText = txtAddress.value;
+                var addressCell = row.insertCell(2);
+                addressCell.innerText = txtAddress.value;
 
-        var trashCell = row.insertCell(3);
-        trashCell.innerHTML = '<div class="trash" onclick="handleDelete(event)"></div>';
+                var trashCell = row.insertCell(3);
+                trashCell.innerHTML = '<div class="trash" onclick="handleDelete(event)"></div>';
+            }
 
-        showOrHideTFoot();
+            showOrHideTFoot();
 
-        txtId.value = '';
-        txtName.value = '';
-        txtAddress.value = '';
-        txtId.focus();
+            txtId.value = '';
+            txtName.value = '';
+            txtAddress.value = '';
+            txtId.focus();
 
-    }else{
-        selectedCustomer.name = txtName.value;
-        selectedCustomer.address = txtAddress.value;
-        selectedRow.cells[1].innerText = txtName.value;
-        selectedRow.cells[2].innerText = txtAddress.value;
+        } else {
+            alert('Customer has saved')
+            selectedCustomer.name = txtName.value;
+            selectedCustomer.address = txtAddress.value;
+            selectedRow.cells[1].innerText = txtName.value;
+            selectedRow.cells[2].innerText = txtAddress.value;
+        }
     }
 
 }
@@ -180,4 +184,39 @@ function validate(){
     }
 
     return validated;
+}
+
+// relevant to pagination part
+
+function clickForwardButton(){
+    tblCustomers.tBodies.item(0).innerHTML ='';
+    let activeNumber = parseInt(document.getElementsByClassName('active')[0].innerText);
+    document.querySelector(".active").classList.remove('active');
+    activeNumber  += activeNumber;
+
+    for(var i =5;i<11;i++){
+        var id = customers[i].id;
+        var name = customers[i].name;
+        var address = customers[i].address;
+
+        var row = tblCustomers.tBodies.item(0).insertRow(-1);
+        row.onclick = handleSelection;
+
+        var idCell = row.insertCell(0);
+        idCell.innerText = id;
+
+        var nameCell = row.insertCell(1);
+        nameCell.innerText = name;
+
+        var addressCell = row.insertCell(2);
+        addressCell.innerText = address;
+
+        var trashCell = row.insertCell(3);
+        trashCell.innerHTML = '<div class="trash" onclick="handleDelete(event)"></div>';
+    }
+
+    showOrHideTFoot();
+}
+function clickBackwardButton(){
+    alert('Anupama')
 }
